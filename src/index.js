@@ -35,8 +35,9 @@ const options = {
   getLink: () => {
     return `https://pixabay.com/api/?key=${options.key}&q=${options.q}&image_type=photo&orientation=horizontal&safesearch=true&page=${options.page}`;
   },
-  makeItEasy: response =>
-    response.data.hits
+  makeItEasy: response => {
+    options.totalHits = response.data.totalHits;
+    return response.data.hits
       .map(
         x => `<div class="photo-card">
   <a href="${x.largeImageURL}"><img src="${x.previewURL}" alt="${x.tags}" loading="lazy" /></a>
@@ -56,7 +57,9 @@ const options = {
   </div>
 </div>`
       )
-      .join(''),
+      .join('');
+  },
+  totalHits: 0,
 };
 
 refs.btnLoadMore.disabled = true;
@@ -68,7 +71,9 @@ refs.form.addEventListener('submit', async e => {
   const temp = await axios.get(options.getLink()).then(options.makeItEasy);
 
   if (!temp) {
-    notiflix.Notify.failure('There is no photos in library');
+    notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
     refs.btnLoadMore.disabled = true;
     refs.gallery.innerHTML = '';
     gallery.refresh();
@@ -82,7 +87,13 @@ refs.form.addEventListener('submit', async e => {
 });
 
 refs.btnLoadMore.addEventListener('click', async e => {
-  options.page++;
+  if (options.totalHits > 20 * ++options.page) {
+    notiflix.Notify.failure(
+      "We're sorry, but you've reached the end of search results."
+    );
+    refs.btnLoadMore.disabled = true;
+    return;
+  }
   refs.gallery.insertAdjacentHTML(
     'beforeend',
     await axios.get(options.getLink()).then(options.makeItEasy)
