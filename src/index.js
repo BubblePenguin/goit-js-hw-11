@@ -42,20 +42,16 @@ const options = {
   <a href="${x.largeImageURL}"><img src="${x.previewURL}" alt="${x.tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
-      <b>Likes</b>
-      ${x.likes}
+      <b>Likes</b> ${x.likes}
     </p>
     <p class="info-item">
-      <b>Views</b>
-      ${x.views}
+      <b>Views</b> ${x.views}
     </p>
     <p class="info-item">
-      <b>Comments</b>
-      ${x.comments}
+      <b>Comments</b> ${x.comments}
     </p>
     <p class="info-item">
-      <b>Downloads</b>
-      ${x.downloads}
+      <b>Downloads</b> ${x.downloads}
     </p>
   </div>
 </div>`
@@ -70,7 +66,6 @@ refs.form.addEventListener('submit', async e => {
   options.q = refs.form.elements.searchQuery.value;
   options.page = 1;
   const temp = await axios.get(options.getLink()).then(options.makeItEasy);
-  gallery.refresh();
 
   if (!temp) {
     notiflix.Notify.failure('There is no photos in library');
@@ -82,6 +77,7 @@ refs.form.addEventListener('submit', async e => {
   refs.gallery.innerHTML = temp;
   refs.btnLoadMore.disabled = false;
   notiflix.Notify.success('Good Boy!');
+  gallery.refresh();
 });
 
 refs.btnLoadMore.addEventListener('click', async e => {
