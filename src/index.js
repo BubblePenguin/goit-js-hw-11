@@ -71,6 +71,7 @@ refs.form.addEventListener('submit', async e => {
     notiflix.Notify.failure('There is no photos in library');
     refs.btnLoadMore.disabled = true;
     refs.gallery.innerHTML = '';
+    gallery.refresh();
     return;
   }
 
