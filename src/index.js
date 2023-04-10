@@ -87,13 +87,14 @@ refs.form.addEventListener('submit', async e => {
 });
 
 refs.btnLoadMore.addEventListener('click', async e => {
-  if (options.totalHits < 40 * ++options.page) {
+  if (options.totalHits <= 40 * options.page) {
     notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
     refs.btnLoadMore.hidden = true;
     return;
   }
+  options.page++;
   refs.gallery.insertAdjacentHTML(
     'beforeend',
     await axios.get(options.getLink()).then(options.makeItEasy)
