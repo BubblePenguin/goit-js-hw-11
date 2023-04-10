@@ -33,7 +33,7 @@ const options = {
   page: 1,
   q: '',
   getLink: () => {
-    return `https://pixabay.com/api/?key=${options.key}&q=${options.q}&image_type=photo&orientation=horizontal&safesearch=true&page=${options.page}`;
+    return `https://pixabay.com/api/?key=${options.key}&q=${options.q}&image_type=photo&orientation=horizontal&safesearch=true&page=${options.page}&per_page=40`;
   },
   makeItEasy: response => {
     options.totalHits = response.data.totalHits;
@@ -87,7 +87,7 @@ refs.form.addEventListener('submit', async e => {
 });
 
 refs.btnLoadMore.addEventListener('click', async e => {
-  if (options.totalHits < 20 * ++options.page) {
+  if (options.totalHits < 40 * ++options.page) {
     notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
