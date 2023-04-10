@@ -62,7 +62,7 @@ const options = {
   totalHits: 0,
 };
 
-refs.btnLoadMore.disabled = true;
+refs.btnLoadMore.hidden = true;
 
 refs.form.addEventListener('submit', async e => {
   e.preventDefault();
@@ -74,14 +74,14 @@ refs.form.addEventListener('submit', async e => {
     notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
-    refs.btnLoadMore.disabled = true;
+    refs.btnLoadMore.hidden = true;
     refs.gallery.innerHTML = '';
     gallery.refresh();
     return;
   }
 
   refs.gallery.innerHTML = temp;
-  refs.btnLoadMore.disabled = false;
+  refs.btnLoadMore.hidden = false;
   notiflix.Notify.success('Good Boy!');
   gallery.refresh();
 });
@@ -91,7 +91,7 @@ refs.btnLoadMore.addEventListener('click', async e => {
     notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
-    refs.btnLoadMore.disabled = true;
+    refs.btnLoadMore.hidden = true;
     return;
   }
   refs.gallery.insertAdjacentHTML(
