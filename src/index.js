@@ -87,7 +87,7 @@ refs.form.addEventListener('submit', async e => {
 });
 
 refs.btnLoadMore.addEventListener('click', async e => {
-  if (options.totalHits > 20 * ++options.page) {
+  if (options.totalHits < 20 * ++options.page) {
     notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
